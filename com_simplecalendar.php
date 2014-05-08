@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-domix::err();
-
 final class xmap_com_simplecalendar
 {
 
@@ -65,7 +63,7 @@ final class xmap_com_simplecalendar
             $params['event_changefreq'] = $parent->changefreq;
         }
 
-        self::getCategoryTree($xmap, $parent, $params, $uri->getVar('catid'));
+        self::getEvents($xmap, $parent, $params, $uri->getVar('catid'));
     }
 
     private static function getCategoryTree(XmapDisplayer &$xmap, stdClass &$parent, array &$params, array $catids)
@@ -73,6 +71,10 @@ final class xmap_com_simplecalendar
         $db = JFactory::getDBO();
 
         JArrayHelper::toInteger($catids);
+
+        if (count($catids) == 1 && end($catids) == 0) {
+            $catids = array(1);
+        }
 
         $query = $db->getQuery(true)
             ->select(array('id', 'title', 'parent_id'))
@@ -89,6 +91,7 @@ final class xmap_com_simplecalendar
         }
 
         $db->setQuery($query);
+
         $rows = $db->loadObjectList();
 
         if (empty($rows)) {
@@ -111,7 +114,7 @@ final class xmap_com_simplecalendar
             if ($xmap->printNode($node) !== false) {
                 self::getCategoryTree($xmap, $parent, $params, array($row->id));
                 if ($params['include_events']) {
-                    self::getEvents($xmap, $parent, $params, $row->id);
+                    self::getEvents($xmap, $parent, $params, array($row->id));
                 }
             }
         }
@@ -119,11 +122,37 @@ final class xmap_com_simplecalendar
         $xmap->changeLevel(-1);
     }
 
-    private static function getEvents(XmapDisplayer &$xmap, stdClass &$parent, array &$params, $catid)
+    private static function getEvents(XmapDisplayer &$xmap, stdClass &$parent, array &$params, array $catids)
     {
+        $db = JFactory::getDBO();
 
-        // TODO
-        $rows = array();
+        JArrayHelper::toInteger($catids);
+
+        self::getCategoryTree($xmap, $parent, $params, $catids);
+
+        if (count($catids) == 1 && end($catids) == 0) {
+            return;
+        }
+
+        if (!$params['include_events']) {
+            return;
+        }
+
+        $query = $db->getQuery(true)
+            ->select('a.*')
+            ->from('#__simplecalendar as a')
+            ->join('INNER', '#__categories AS c ON a.catid = c.id')
+            ->where('a.catid IN(' . implode(',', $catids) . ')')
+            ->where('a.state = 1')
+            ->order('a.start_dt');
+
+        if (!$params['show_unauth']) {
+            $query->where('c.access IN(' . $params['groups'] . ')');
+        }
+
+        $db->setQuery($query);
+
+        $rows = $db->loadObjectList();
 
         if (empty($rows)) {
             return;
@@ -134,12 +163,12 @@ final class xmap_com_simplecalendar
         foreach ($rows as $row) {
             $node = new stdclass;
             $node->id = $parent->id;
-            $node->name = $row->title;
+            $node->name = $row->name;
             $node->uid = $parent->uid . '_' . $row->id;
             $node->browserNav = $parent->browserNav;
             $node->priority = $params['event_priority'];
             $node->changefreq = $params['event_changefreq'];
-            $node->link = SimpleCalendarHelperRoute::getEventRoute($row->id, $row->catid);
+            $node->link = SimpleCalendarHelperRoute::getEventRoute($row->id . ':' . $row->alias, $row->catid);
 
             $xmap->printNode($node);
         }
