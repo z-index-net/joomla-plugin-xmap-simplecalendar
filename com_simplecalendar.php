@@ -3,15 +3,14 @@
 /**
  * @author     Branko Wilhelm <branko.wilhelm@gmail.com>
  * @link       http://www.z-index.net
- * @copyright  (c) 2014 Branko Wilhelm
+ * @copyright  (c) 2014 - 2015 Branko Wilhelm
  * @license    GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
 defined('_JEXEC') or die;
 
-final class xmap_com_simplecalendar
+class xmap_com_simplecalendar
 {
-
     private static $views = array('events');
 
     private static $enabled = false;
@@ -20,9 +19,7 @@ final class xmap_com_simplecalendar
     {
         self::$enabled = JComponentHelper::isEnabled('com_simplecalendar');
 
-        if (self::$enabled) {
-            JLoader::register('SimpleCalendarHelperRoute', JPATH_SITE . '/components/com_simplecalendar/helpers/route.php');
-        }
+        JLoader::register('SimpleCalendarHelperRoute', JPATH_SITE . '/components/com_simplecalendar/helpers/route.php');
     }
 
     public static function getTree(XmapDisplayer &$xmap, stdClass &$parent, array &$params)

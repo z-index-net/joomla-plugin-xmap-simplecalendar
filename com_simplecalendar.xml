@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5" type="plugin" group="xmap" method="upgrade">
-    <name>PLG_XMAP_COM_SIMPLE_CALENDAR</name>
+<extension version="3.0" type="plugin" group="xmap" method="upgrade">
+    <name>PLG_XMAP_COM_SIMPLECALENDAR</name>
     <author>Branko Wilhelm</author>
     <creationDate>May 2014</creationDate>
-    <copyright>Copyright (C) 2014 Branko Wilhelm</copyright>
+    <copyright>Copyright (c) 2014 - 2015 Branko Wilhelm</copyright>
     <license>GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html</license>
     <authorEmail>branko.wilhelm@gmail.com</authorEmail>
     <authorUrl>www.z-index.net</authorUrl>
     <version>@REVISION@</version>
-    <description>PLG_XMAP_COM_SIMPLE_CALENDAR_DESC</description>
+    <description>PLG_XMAP_COM_SIMPLECALENDAR_DESC</description>
     <files>
         <filename plugin="com_simplecalendar">com_simplecalendar.php</filename>
     </files>
@@ -23,14 +23,14 @@
     <config>
         <fields name="params">
             <fieldset name="basic">
-                <field name="include_events" type="list" default="1" label="PLG_XMAP_COM_SIMPLE_CALENDAR_INCLUDE_EVENTS_LABEL" description="PLG_XMAP_COM_SIMPLE_CALENDAR_INCLUDE_EVENTS_DESC">
-                    <option value="0">PLG_XMAP_COM_SIMPLE_CALENDAR_NEVER</option>
-                    <option value="1">PLG_XMAP_COM_SIMPLE_CALENDAR_ALWAYS</option>
-                    <option value="2">PLG_XMAP_COM_SIMPLE_CALENDAR_XML_ONLY</option>
-                    <option value="3">PLG_XMAP_COM_SIMPLE_CALENDAR_HTML_ONLY</option>
+                <field name="include_events" type="list" default="1" label="PLG_XMAP_COM_SIMPLECALENDAR_INCLUDE_EVENTS_LABEL" description="PLG_XMAP_COM_SIMPLECALENDAR_INCLUDE_EVENTS_DESC">
+                    <option value="0">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_NEVER</option>
+                    <option value="1">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_ALWAYS</option>
+                    <option value="2">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_XML_ONLY</option>
+                    <option value="3">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_HTML_ONLY</option>
                 </field>
-                <field name="category_priority" type="list" default="-1" label="PLG_XMAP_COM_SIMPLE_CALENDAR_CATEGORY_PRIORITY_LABEL" description="PLG_XMAP_COM_SIMPLE_CALENDAR_CATEGORY_PRIORITY_DESC">
-                    <option value="-1">PLG_XMAP_COM_SIMPLE_CALENDAR_USE_PARENT_MENU</option>
+                <field name="category_priority" type="list" default="-1" label="PLG_XMAP_COM_SIMPLECALENDAR_CATEGORY_PRIORITY_LABEL" description="PLG_XMAP_COM_SIMPLECALENDAR_CATEGORY_PRIORITY_DESC">
+                    <option value="-1">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_USE_PARENT_MENU</option>
                     <option value="0.0">0.0</option>
                     <option value="0.1">0.1</option>
                     <option value="0.2">0.2</option>
@@ -43,18 +43,18 @@
                     <option value="0.9">0.9</option>
                     <option value="1">1</option>
                 </field>
-                <field name="category_changefreq" type="list" default="-1" label="PLG_XMAP_COM_SIMPLE_CALENDAR_CATEGORY_CHANGE_FREQ_LABEL" description="PLG_XMAP_COM_SIMPLE_CALENDAR_CATEGORY_CHANGE_FREQ_DESC">
-                    <option value="-1">PLG_XMAP_COM_SIMPLE_CALENDAR_USE_PARENT_MENU</option>
-                    <option value="always">PLG_XMAP_COM_SIMPLE_CALENDAR_ALWAYS</option>
-                    <option value="hourly">PLG_XMAP_COM_SIMPLE_CALENDAR_HOURLY</option>
-                    <option value="daily">PLG_XMAP_COM_SIMPLE_CALENDAR_DAILY</option>
-                    <option value="weekly">PLG_XMAP_COM_SIMPLE_CALENDAR_WEEKLY</option>
-                    <option value="monthly">PLG_XMAP_COM_SIMPLE_CALENDAR_MONTHLY</option>
-                    <option value="yearly">PLG_XMAP_COM_SIMPLE_CALENDAR_YEARLY</option>
-                    <option value="never">PLG_XMAP_COM_SIMPLE_CALENDAR_NEVER</option>
+                <field name="category_changefreq" type="list" default="-1" label="PLG_XMAP_COM_SIMPLECALENDAR_CATEGORY_CHANGE_FREQ_LABEL" description="PLG_XMAP_COM_SIMPLECALENDAR_CATEGORY_CHANGE_FREQ_DESC">
+                    <option value="-1">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_USE_PARENT_MENU</option>
+                    <option value="always">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_ALWAYS</option>
+                    <option value="hourly">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_HOURLY</option>
+                    <option value="daily">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_DAILY</option>
+                    <option value="weekly">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_WEEKLY</option>
+                    <option value="monthly">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_MONTHLY</option>
+                    <option value="yearly">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_YEARLY</option>
+                    <option value="never">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_NEVER</option>
                 </field>
-                <field name="event_priority" type="list" default="-1" label="PLG_XMAP_COM_SIMPLE_CALENDAR_EVENT_PRIORITY_LABEL" description="PLG_XMAP_COM_SIMPLE_CALENDAR_EVENT_PRIORITY_DESC">
-                    <option value="-1">PLG_XMAP_COM_SIMPLE_CALENDAR_USE_PARENT_MENU</option>
+                <field name="event_priority" type="list" default="-1" label="PLG_XMAP_COM_SIMPLECALENDAR_EVENT_PRIORITY_LABEL" description="PLG_XMAP_COM_SIMPLECALENDAR_EVENT_PRIORITY_DESC">
+                    <option value="-1">PLG_XMAP_COM_SIMPLECALENDAR_USE_PARENT_MENU</option>
                     <option value="0.0">0.0</option>
                     <option value="0.1">0.1</option>
                     <option value="0.2">0.2</option>
@@ -67,15 +67,15 @@
                     <option value="0.9">0.9</option>
                     <option value="1">1</option>
                 </field>
-                <field name="event_changefreq" type="list" default="-1" label="PLG_XMAP_COM_SIMPLE_CALENDAR_EVENT_CHANGE_FREQ_LABEL" description="PLG_XMAP_COM_SIMPLE_CALENDAR_EVENT_CHANGE_FREQ_DESC">
-                    <option value="-1">PLG_XMAP_COM_SIMPLE_CALENDAR_USE_PARENT_MENU</option>
-                    <option value="always">PLG_XMAP_COM_SIMPLE_CALENDAR_ALWAYS</option>
-                    <option value="hourly">PLG_XMAP_COM_SIMPLE_CALENDAR_HOURLY</option>
-                    <option value="daily">PLG_XMAP_COM_SIMPLE_CALENDAR_DAILY</option>
-                    <option value="weekly">PLG_XMAP_COM_SIMPLE_CALENDAR_WEEKLY</option>
-                    <option value="monthly">PLG_XMAP_COM_SIMPLE_CALENDAR_MONTHLY</option>
-                    <option value="yearly">PLG_XMAP_COM_SIMPLE_CALENDAR_YEARLY</option>
-                    <option value="never">PLG_XMAP_COM_SIMPLE_CALENDAR_NEVER</option>
+                <field name="event_changefreq" type="list" default="-1" label="PLG_XMAP_COM_SIMPLECALENDAR_EVENT_CHANGE_FREQ_LABEL" description="PLG_XMAP_COM_SIMPLECALENDAR_EVENT_CHANGE_FREQ_DESC">
+                    <option value="-1">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_USE_PARENT_MENU</option>
+                    <option value="always">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_ALWAYS</option>
+                    <option value="hourly">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_HOURLY</option>
+                    <option value="daily">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_DAILY</option>
+                    <option value="weekly">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_WEEKLY</option>
+                    <option value="monthly">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_MONTHLY</option>
+                    <option value="yearly">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_YEARLY</option>
+                    <option value="never">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_NEVER</option>
                 </field>
             </fieldset>
         </fields>
