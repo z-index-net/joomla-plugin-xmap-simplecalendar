@@ -54,7 +54,7 @@
                     <option value="never">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_NEVER</option>
                 </field>
                 <field name="event_priority" type="list" default="-1" label="PLG_XMAP_COM_SIMPLECALENDAR_EVENT_PRIORITY_LABEL" description="PLG_XMAP_COM_SIMPLECALENDAR_EVENT_PRIORITY_DESC">
-                    <option value="-1">PLG_XMAP_COM_SIMPLECALENDAR_USE_PARENT_MENU</option>
+                    <option value="-1">PLG_XMAP_COM_SIMPLECALENDAR_OPTION_USE_PARENT_MENU</option>
                     <option value="0.0">0.0</option>
                     <option value="0.1">0.1</option>
                     <option value="0.2">0.2</option>
