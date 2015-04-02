@@ -11,8 +11,14 @@ defined('_JEXEC') or die;
 
 class xmap_com_simplecalendar
 {
+    /**
+     * @var array
+     */
     private static $views = array('events');
 
+    /**
+     * @var bool
+     */
     private static $enabled = false;
 
     public function __construct()
@@ -22,11 +28,17 @@ class xmap_com_simplecalendar
         JLoader::register('SimpleCalendarHelperRoute', JPATH_SITE . '/components/com_simplecalendar/helpers/route.php');
     }
 
-    public static function getTree(XmapDisplayer &$xmap, stdClass &$parent, array &$params)
+    /**
+     * @param XmapDisplayerInterface $xmap
+     * @param stdClass $parent
+     * @param array $params
+     */
+    public static function getTree($xmap, stdClass $parent, array &$params)
     {
         $uri = new JUri($parent->link);
 
-        if (!self::$enabled || !in_array($uri->getVar('view'), self::$views)) {
+        if (!self::$enabled || !in_array($uri->getVar('view'), self::$views))
+        {
             return;
         }
 
@@ -41,35 +53,46 @@ class xmap_com_simplecalendar
         $params['category_priority'] = JArrayHelper::getValue($params, 'category_priority', $parent->priority);
         $params['category_changefreq'] = JArrayHelper::getValue($params, 'category_changefreq', $parent->changefreq);
 
-        if ($params['category_priority'] == -1) {
+        if ($params['category_priority'] == -1)
+        {
             $params['category_priority'] = $parent->priority;
         }
 
-        if ($params['category_changefreq'] == -1) {
+        if ($params['category_changefreq'] == -1)
+        {
             $params['category_changefreq'] = $parent->changefreq;
         }
 
         $params['event_priority'] = JArrayHelper::getValue($params, 'event_priority', $parent->priority);
         $params['event_changefreq'] = JArrayHelper::getValue($params, 'event_changefreq', $parent->changefreq);
 
-        if ($params['event_priority'] == -1) {
+        if ($params['event_priority'] == -1)
+        {
             $params['event_priority'] = $parent->priority;
         }
 
-        if ($params['event_changefreq'] == -1) {
+        if ($params['event_changefreq'] == -1)
+        {
             $params['event_changefreq'] = $parent->changefreq;
         }
 
         self::getEvents($xmap, $parent, $params, $uri->getVar('catid'));
     }
 
-    private static function getCategoryTree(XmapDisplayer &$xmap, stdClass &$parent, array &$params, array $catids)
+    /**
+     * @param XmapDisplayerInterface $xmap
+     * @param stdClass $parent
+     * @param array $params
+     * @param array $catids
+     */
+    private static function getCategoryTree($xmap, stdClass $parent, array &$params, array $catids)
     {
         $db = JFactory::getDBO();
 
         JArrayHelper::toInteger($catids);
 
-        if (count($catids) == 1 && end($catids) == 0) {
+        if (count($catids) == 1 && end($catids) == 0)
+        {
             $catids = array(1);
         }
 
@@ -79,11 +102,13 @@ class xmap_com_simplecalendar
             ->where('extension = ' . $db->quote('com_simplecalendar'))
             ->order('lft');
 
-        if (!empty($catids)) {
+        if (!empty($catids))
+        {
             $query->where('parent_id IN(' . implode(',', $catids) . ')');
         }
 
-        if (!$params['show_unauth']) {
+        if (!$params['show_unauth'])
+        {
             $query->where('access IN(' . $params['groups'] . ')');
         }
 
@@ -91,13 +116,15 @@ class xmap_com_simplecalendar
 
         $rows = $db->loadObjectList();
 
-        if (empty($rows)) {
+        if (empty($rows))
+        {
             return;
         }
 
         $xmap->changeLevel(1);
 
-        foreach ($rows as $row) {
+        foreach ($rows as $row)
+        {
             $node = new stdclass;
             $node->id = $parent->id;
             $node->name = $row->title;
@@ -108,9 +135,11 @@ class xmap_com_simplecalendar
             $node->pid = $row->parent_id;
             $node->link = SimpleCalendarHelperRoute::getCategoryRoute($row->id);
 
-            if ($xmap->printNode($node) !== false) {
+            if ($xmap->printNode($node) !== false)
+            {
                 self::getCategoryTree($xmap, $parent, $params, array($row->id));
-                if ($params['include_events']) {
+                if ($params['include_events'])
+                {
                     self::getEvents($xmap, $parent, $params, array($row->id));
                 }
             }
@@ -119,7 +148,13 @@ class xmap_com_simplecalendar
         $xmap->changeLevel(-1);
     }
 
-    private static function getEvents(XmapDisplayer &$xmap, stdClass &$parent, array &$params, array $catids)
+    /**
+     * @param XmapDisplayerInterface $xmap
+     * @param stdClass $parent
+     * @param array $params
+     * @param array $catids
+     */
+    private static function getEvents($xmap, stdClass $parent, array &$params, array $catids)
     {
         $db = JFactory::getDBO();
 
@@ -127,11 +162,13 @@ class xmap_com_simplecalendar
 
         self::getCategoryTree($xmap, $parent, $params, $catids);
 
-        if (count($catids) == 1 && end($catids) == 0) {
+        if (count($catids) == 1 && end($catids) == 0)
+        {
             return;
         }
 
-        if (!$params['include_events']) {
+        if (!$params['include_events'])
+        {
             return;
         }
 
@@ -143,7 +180,8 @@ class xmap_com_simplecalendar
             ->where('a.state = 1')
             ->order('a.start_dt');
 
-        if (!$params['show_unauth']) {
+        if (!$params['show_unauth'])
+        {
             $query->where('c.access IN(' . $params['groups'] . ')');
         }
 
@@ -151,13 +189,15 @@ class xmap_com_simplecalendar
 
         $rows = $db->loadObjectList();
 
-        if (empty($rows)) {
+        if (empty($rows))
+        {
             return;
         }
 
         $xmap->changeLevel(1);
 
-        foreach ($rows as $row) {
+        foreach ($rows as $row)
+        {
             $node = new stdclass;
             $node->id = $parent->id;
             $node->name = $row->name;
